@@ -14,7 +14,7 @@ ________________________________________________________________________________
 In this step we need to filter out incomplete cases and low expressed genes, then transforming/normalizing gene expression values. Usually analysis would start from a raw count matrix comming from an RNA-seq experiment. Because there are a large number of features (gene) in such matrix , a feature selection step should be done to limit the analysis to those genes that possibly explain variation between samples in the cohort.  
 To do so ;
 - For filteration: I would keep those genes  that  have expression in 10% of samples with a count of 10 or higher. 
-- For transformation/normalization : I would use variance stabilizing transformation (VST). I use ```R vst``` function from ```DESeq2 packages``` which at the same time will normalize the raw count also.
+- For transformation/normalization : I would use variance stabilizing transformation (VST). I use ```vst``` function from ```DESeq2 packages``` which at the same time will normalize the raw count also.
 - For feature selection: I would select 2k, 4k and 6k top genes based on median absolute deviation (MAD) 
 
 Other approaches also could be use for example: 

@@ -8,13 +8,7 @@ Unsupervised class discovery is a data mining method to identify unknown possibl
 #### [3] applying clustering algorithms, 
 #### [4] Assessing cluster assignment
 _________________________________________________________________________________________________________________________________________________________________________________________
-In the first step you should calculate a dissimilarity matrix for clustering . Again there is difficulty regarding to math calculation on categorical/binary data. In a dissimilarity matrix distances between all possible pair would be calculated and then subsequent algorithm will use these stats to make clusters. For doing this there are diffrent methods: Gower distance from cluster R base package, methods available in vegan R package a: binomial, chi-square, raup and jaccard . It depends on your data and your decision to chose which method.
 
+### [1] Data preparation
 
-For this technique, an investigator seeks to answer two questions: how many groups are present in a dataset, and what is the confidence in the number of groups and the group memberships.
-
-# three  main  steps  to  useConsensusClusterPlus:   
-# 1-preparing  inputdata, 
-# 2- running the program, and 
-# 3-generating cluster-consensus and item-consensus.
-
+In this step we need to convert/transform/normalize gene expression data. Usually analysis would start from a raw count matrix comming from an RNA-seq experiment. Because there are a large number of features (gene) in such matrix , a simple feature selection step should be done to limit the analysis to those genes that possibly explain variation between samples in the cohort.  

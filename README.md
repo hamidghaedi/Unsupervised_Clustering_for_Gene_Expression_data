@@ -24,6 +24,7 @@ Other approaches also could be use for example:
  
 
 ```R
+#_________________________________reading data and processing_________________________________#
 # reading count data
 rna <- read.table("Uromol1_CountData.v1.csv", header = T, sep = ",")
 head(rna[1:5, 1:5], 5)
@@ -33,3 +34,60 @@ head(rna[1:5, 1:5], 5)
 #ENSG00000000419.11   594    23   792  1378   139
 #ENSG00000000457.12   548    22  1029   976   148
 #ENSG00000000460.15    53     2   190   136    47
+
+dim(rna)
+# [1] 60483   476  this is a typical output from hts-seq count matrix with more than 60,000 genes
+
+# dissecting dataset based on gene-type
+library(biomaRt)
+mart <- useDataset("hsapiens_gene_ensembl", useMart("ensembl"))
+genes <- getBM(attributes= c("ensembl_gene_id","hgnc_symbol", "gene_biotype"), 
+               mart= mart)
+
+# see gene types returned by biomaRt
+data.frame(table(genes$gene_biotype))[order(- data.frame(table(genes$gene_biotype))[,2]), ]
+
+# we will continue with protein coding here:
+rna <- rna[substr(rownames(rna),1,15) %in% genes$ensembl_gene_id[genes$gene_biotype == "protein_coding"],]
+
+dim(rna)
+#[1] 19581   476 These are protein coding genes
+
+# reading associated clinical data
+clinical.exp <- read.table("uromol_clinic.csv", sep = ",", header = T)
+head(clinical.exp[1:5,1:5], 5)
+#      UniqueID   CLASS  BASE47    CIS X12.gene.signature
+#U0603    U0603 luminal luminal no-CIS          high_risk
+#U0497    U0497 luminal   basal no-CIS           low_risk
+#U0839    U0839 luminal luminal    CIS           low_risk
+#U1043    U1043 luminal luminal no-CIS          high_risk
+#U0566    U0566 luminal   basal no-CIS           low_risk
+
+#______________________ Data tranformation & Normalization ______________________________#
+library(DESeq2)
+dds <- DESeqDataSetFromMatrix(countData = rna,
+                              colData = clinical.exp,
+                              design = ~ 1) # 1 passed to the function because of no model
+# Prefilteration: Not necessary
+# Remove those have lower than 10 count across all samples
+keep <- rowSums(counts(dds)) >= 10
+dds <- dds[keep,]
+
+# OR:
+# at 10% of samples with a count of 10 or higher
+keep <- rowSums(counts(dds) >= 10) >= round(ncol(rna)*0.1)
+dds <- dds[keep,]
+
+
+# vst tranformation
+vsd <- vst(dds) # For a fully unsupervised transformation, 
+                # one can set blind = TRUE (which is the default).
+
+#head(assay(vsd), 3)
+#colData(vsd)
+
+
+
+
+
+

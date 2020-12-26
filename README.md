@@ -17,7 +17,7 @@ To do so ;
 - For transformation/normalization : I  use variance stabilizing transformation (VST). I use ```vst``` function from ```DESeq2 packages``` which at the same time will normalize the raw count also. Using other type of transformation like Z score, log transformation are also quiet commmon.
 - For feature selection: I  select 2k, 4k and 6k top genes based on median absolute deviation (MAD) . A number of other methods like "feature selection based on the most variance", "feature dimension reduction and extraction based on Principal Component Analysis (PCA)", and "feature selection based on Cox regression model" could be applied. See bioconductor package [CancerSubtypes manual](http://www.bioconductor.org/packages/release/bioc/html/CancerSubtypes.html). 
 
-Other approaches also could be use for example: 
+Other approaches also could be used for example: 
  - Using log2(RSEM) gene expression value and removing genes with NA values more than 10% across samples. Then selected top 25% most-varying genes by standard deviation of gene expression across samples ([A. Gordon Robertson et al., Cell,2017](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5687509/)). 
 
  - Using FPKM matrix and keeping genes with (log2(FPKM+1)>2 in at least 10% of samples and selecting a subsets (2K, 4K, 6K ) of MAD ranked genes to identify stable classes ([Jakob Hedegaard et al, Cancer Cell, 2016](https://www.sciencedirect.com/science/article/pii/S1535610816302094#mmc1)). 
@@ -63,29 +63,39 @@ head(clinical.exp[1:5,1:5], 5)
 #U1043    U1043 luminal luminal no-CIS          high_risk
 #U0566    U0566 luminal   basal no-CIS           low_risk
 
+# making sure about sample order in rna and clincal.exp dataset
+all(rownames(clinical.exp) %in% colnames(rna))
+#[1] TRUE
+all(rownames(clinical.exp) == colnames(rna))
+#[1] FALSE
+# reordering rna dataset
+rna <- rna[, rownames(clinical.exp)]
 #______________________ Data tranformation & Normalization ______________________________#
 library(DESeq2)
 dds <- DESeqDataSetFromMatrix(countData = rna,
                               colData = clinical.exp,
                               design = ~ 1) # 1 passed to the function because of no model
-# Prefilteration: Not necessary
-# Remove those have lower than 10 count across all samples
-keep <- rowSums(counts(dds)) >= 10
-dds <- dds[keep,]
-
-# OR:
-# at 10% of samples with a count of 10 or higher
+# pre-filteration, however while using DESeq2 package it is not necessary, because the function automatically will filter out low count genes
+# Keeping genes with expression in 10% of samples with a count of 10 or higher
 keep <- rowSums(counts(dds) >= 10) >= round(ncol(rna)*0.1)
 dds <- dds[keep,]
 
-
 # vst tranformation
-vsd <- vst(dds) # For a fully unsupervised transformation, 
-                # one can set blind = TRUE (which is the default).
+vsd <- vst(dds) # For a fully unsupervised transformation one can set blind = TRUE (which is the default).
 
+# Inspecting deseq object
 #head(assay(vsd), 3)
 #colData(vsd)
+#_________________________________# Feature Selection _________________________________#
+# top 5K based on MAD 
 
+mads=apply(assay(vsd),1,mad)
+# check data distribution
+hist(mads, breaks=nrow(assay(vsd))*0.1)
+# selecting features
+mad2k=assay(vsd)[rev(order(mads))[1:2000],]
+mad4k=assay(vsd)[rev(order(mads))[1:4000],]
+mad6k=assay(vsd)[rev(order(mads))[1:6000],]
 
 
 

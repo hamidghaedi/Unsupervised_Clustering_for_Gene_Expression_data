@@ -23,3 +23,13 @@ Other approaches also could be use for example:
  - Using FPKM matrix and keeping genes with (log2(FPKM+1)>2 in at least 10% of samples and selecting a subsets (2K, 4K, 6K ) of MAD ranked genes to identify stable classes ([Jakob Hedegaard et al, Cancer Cell, 2016](https://www.sciencedirect.com/science/article/pii/S1535610816302094#mmc1)). 
  
 
+```R
+# reading count data
+rna <- read.table("Uromol1_CountData.v1.csv", header = T, sep = ",")
+head(rna[1:5, 1:5], 5)
+#                   U0001 U0002 U0006 U0007 U0010
+#ENSG00000000003.13  1458   228  1800  3945   293
+#ENSG00000000005.5      0     0     9     0     0
+#ENSG00000000419.11   594    23   792  1378   139
+#ENSG00000000457.12   548    22  1029   976   148
+#ENSG00000000460.15    53     2   190   136    47

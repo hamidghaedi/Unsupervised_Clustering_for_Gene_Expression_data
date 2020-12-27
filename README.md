@@ -109,3 +109,19 @@ For gene expression clustering both Euclidean and correlation based measures (li
 *Clustering algorithms*: two most widely used algorithms are K-means clustering and hierarchical clustering. To see more algorithms please check ```diceR``` package [vignettes](https://cran.r-project.org/web/packages/diceR/vignettes/overview.html).
 
 To quantitatively dtermine the number and membership of possible clusters within the dataset, I will use Consensus Clustering approach. Applying this method has proved to be effective in new cancer subclasses discoveries. For more information on the methodology please refere to the seminal paper by [Monti et al. (2003)](https://link.springer.com/article/10.1023/A:1023949509487)  and ```ConsensusClusterPlus``` package [manual](https://bioconductor.org/packages/release/bioc/html/ConsensusClusterPlus.html). 
+
+```R
+library(ConsensusClusterPlus)
+results = ConsensusClusterPlus(mad2k,
+                               maxK=10, #maximum evalulated Ks
+                               reps=1000, # resamplings
+                               pItem=0.8, # 80% item resampling
+                               pFeature=1,# gene resampling
+                               title="consensus.clust.uromol",
+                               clusterAlg="hc", # agglomerative hc algorithm 
+                               distance="pearson", # 1-  Pearson  correlation  distances
+                               seed=1262118388.71279,
+                               #verbose = TRUE,
+                               writeTable = TRUE,
+                               plot="pdf")
+```

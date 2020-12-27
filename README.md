@@ -96,8 +96,11 @@ hist(mads, breaks=nrow(assay(vsd))*0.1)
 mad2k=assay(vsd)[rev(order(mads))[1:2000],]
 mad4k=assay(vsd)[rev(order(mads))[1:4000],]
 mad6k=assay(vsd)[rev(order(mads))[1:6000],]
+```
 
 
+_________________________________________________________________________________________________________________________________________________________________________________________
 
+### [2&3] Dissimilarity matrix calculation & applying clustering algorithms:
 
 

@@ -103,10 +103,19 @@ ________________________________________________________________________________
 
 ### [2&3] Dissimilarity matrix calculation & applying clustering algorithms:
 
-Clustering is grouping similar samples into one cluster and keeping them far from disimilar samples. There are a diverse list of dissimilarity matrix calculation methods (distance measures). To see list of available distance measures please check ```?stats::dist``` and ```?vegan::vegdist()```. The latter need to have the ```vegan``` package to be installed. 
-For log-transformed gene expression, Euclidean based measures can be applied.  For RNA-seq normalised counts, correlation based measures (Pearson, Spearman) or a Poisson-based distance can be used.  
+Clustering is grouping similar samples into one cluster and keeping them far from disimilar samples. There are a diverse list of dissimilarity matrix calculation methods (distance measures). To see list of available distance measures please check ```?stats::dist``` and ```?vegan::vegdist()```. The latter need to have the ```vegan``` package to be installed:
 
-*Clustering algorithms*: two most widely used algorithms are K-means clustering and hierarchical clustering. To see more algorithms please check ```diceR``` package [vignettes](https://cran.r-project.org/web/packages/diceR/vignettes/overview.html).
+   * For log-transformed gene expression, Euclidean based measures can be applied.
+   * For RNA-seq normalised counts, correlation based measures (Pearson, Spearman) or a Poisson-based distance can be used.  
+
+**Clustering algorithms**: To see a list of algorithms please check ```diceR``` package [vignettes](https://cran.r-project.org/web/packages/diceR/vignettes/overview.html). Most widely used algorithms are *partitional clustering* and *hierarchical clustering*.
+
+Partitional clustering are clustering methods used to classify samples into multiple clusters based on their similarity. The algorithms required to specify the number of clusters to be generated. The commonly used partitional clustering, including:
+
+ * K-means clustering: each cluster is represented by the center or means of the data points belonging to the cluster. This method is sensitive to outliers.
+ * K-medoids clustering or PAM (Partitioning Around Medoids), in which, each cluster is represented by one of the objects in the cluster. PAM is less sensitive to outliers.
+
+
 
 To quantitatively dtermine the number and membership of possible clusters within the dataset, I will use Consensus Clustering approach. Applying this method has proved to be effective in new cancer subclasses discoveries. For more information on the methodology please refere to the seminal paper by [Monti et al. (2003)](https://link.springer.com/article/10.1023/A:1023949509487)  and ```ConsensusClusterPlus``` package [manual](https://bioconductor.org/packages/release/bioc/html/ConsensusClusterPlus.html). 
 
@@ -125,3 +134,14 @@ results = ConsensusClusterPlus(mad2k,
                                writeTable = TRUE,
                                plot="pdf")
 ```
+
+_________________________________________________________________________________________________________________________________________________________________________________________
+### Refrences
+1- Biostar posts:
+https://www.biostars.org/p/321773/
+https://www.biostars.org/p/225315/
+https://www.biostars.org/p/74223/
+https://www.biostars.org/p/281161/
+https://www.biostars.org/p/273107/
+2- https://www.datanovia.com/en/courses/partitional-clustering-in-r-the-essentials/
+3-

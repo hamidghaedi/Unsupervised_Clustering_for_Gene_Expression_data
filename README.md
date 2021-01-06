@@ -110,12 +110,18 @@ Clustering is grouping similar samples into one cluster and keeping them far fro
 
 **Clustering algorithms**: To see a list of algorithms please check ```diceR``` package [vignettes](https://cran.r-project.org/web/packages/diceR/vignettes/overview.html). Most widely used algorithms are *partitional clustering* and *hierarchical clustering*.
 
-Partitional clustering are clustering methods used to classify samples into multiple clusters based on their similarity. The algorithms required to specify the number of clusters to be generated. The commonly used partitional clustering, including:
+*Partitional clustering* are clustering methods used to classify samples into multiple clusters based on their similarity. The algorithms required to specify the number of clusters to be generated. The commonly used partitional clustering, including:
 
- * K-means clustering: each cluster is represented by the center or means of the data points belonging to the cluster. This method is sensitive to outliers.
+ * K-means clustering (KM): each cluster is represented by the center or means of the data points belonging to the cluster. This method is sensitive to outliers.
  * K-medoids clustering or PAM (Partitioning Around Medoids), in which, each cluster is represented by one of the objects in the cluster. PAM is less sensitive to outliers.
 
+*Hierarchical clustering (HC)* in contrast to partitional clustering, this method does not require to pre-specify the number of clusters to be generated. HC can be grouped into two classes.
+* Agglomerative:"bottom-up" approach, each observation is initially considered as a cluster of its own (leaf), and pairs of clusters are merged as one moves up the hierarchy.
+* Divisive: "top-down" approach,  This begins with the root so all observations start in one cluster, and splits are performed recursively as one moves down the hierarchy.
 
+Some words on how to compute distances between clusters: Indeed there are diffrent way to do cluster agglomeration (i.e, linkage ). When one using ```stat``` package, possible methods include “ward.D”, “ward.D2”, “single”, “complete”, “average”, “mcquitty”, “median” or “centroid”. Generally complete linkage and Ward’s method are preferred. More reading materials on this can be find [here](https://www.datanovia.com/en/lessons/agglomerative-hierarchical-clustering/). As a result hierarchical clustering provides a tree-based representation of the objects, which is also known as dendrogram.
+
+In practice HC, KM and PAM are commonly used for gene exoression data.
 
 To quantitatively dtermine the number and membership of possible clusters within the dataset, I will use Consensus Clustering approach. Applying this method has proved to be effective in new cancer subclasses discoveries. For more information on the methodology please refere to the seminal paper by [Monti et al. (2003)](https://link.springer.com/article/10.1023/A:1023949509487)  and ```ConsensusClusterPlus``` package [manual](https://bioconductor.org/packages/release/bioc/html/ConsensusClusterPlus.html). 
 
@@ -143,5 +149,9 @@ https://www.biostars.org/p/225315/
 https://www.biostars.org/p/74223/
 https://www.biostars.org/p/281161/
 https://www.biostars.org/p/273107/
+
 2- https://www.datanovia.com/en/courses/partitional-clustering-in-r-the-essentials/
-3-
+
+3- https://2-bitbio.com/2017/10/clustering-rnaseq-data-using-k-means.html
+
+

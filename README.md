@@ -103,7 +103,7 @@ ________________________________________________________________________________
 
 ### [2&3] Dissimilarity matrix calculation & applying clustering algorithms:
 
-Clustering is grouping similar samples into one cluster and keeping them far from disimilar samples. There are a diverse list of dissimilarity matrix calculation methods (distance measures). To see list of available distance measures please check ```?stats::dist``` and ```?vegan::vegdist()```. The latter need to have the ```vegan``` package to be installed:
+Clustering is grouping similar samples into one cluster and keeping them far from disimilar samples based on distance measure. There are a diverse list of dissimilarity matrix calculation methods (distance measures). To see list of available distance measures please check ```?stats::dist``` and ```?vegan::vegdist()```. The latter need to have the ```vegan``` package to be installed:
 
    * For log-transformed gene expression, Euclidean based measures can be applied.
    * For RNA-seq normalised counts, correlation based measures (Pearson, Spearman) or a Poisson-based distance can be used.  

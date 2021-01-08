@@ -130,21 +130,24 @@ To determine the number of cluster based on CC, there are several graphics which
 ```R
 #_________________________________# Clustering & Cluster assignmnet validation _________________________________#
 # finding optimal clusters by CC
-library(ConsensusClusterPlus)
-results = ConsensusClusterPlus(mad2k,
-                               maxK=20, #maximum evalulated 20 for real world
-                               reps=1000, # 50 resamplings, Much higher recommended for real world: 1,000 
-                               pItem=0.8, # 80% item resampling
-                               pFeature=1,# 80% gene resampling
-                               title="consensus.clust.uromol",
-                               clusterAlg="pam", # agglomerative hc algorithm 
-                               distance="spearman", # 1-  Pearson  correlation  distances
-                               seed=1262118388.71279,
-                               #verbose = TRUE,
-                               writeTable = TRUE,
-                               plot="pdf")
+library(CancerSubtypes)
+cc.res=ExecuteCC(clusterNum=4, ## Refer below for more details on this
+                 d=mad2k,
+                 maxK=10,# maximum cluster number for Consensus Clustering Algorithm to evaluate
+                 clusterAlg="pam",
+                 distance="spearman",
+                 title="UROMOL",
+                 plot= pdf)
 ```
-This would return a pdf file in working directory in a folder under the name passed to the ```title``` argument.
+By ```clusterNum``` argument I have to provide the number of cluster that I am intrested to get. This is needed by the package ```CancerSubtypes```. The main package for performin CC in R is ```ConsensusClusterPlus``` and does not need to specify cluster number. From where I got the number 4? From inspecting the  CDF plots in the result folder (here "my/wd/UROMOL"). I performed same analysis for data  sets ```mad4k``` and ```mad6k```
+
+The above command with return two plots which is helful to make decision about cluster number:  consensus CDF and  relative change in area under CDF curve.
+
+                                                                                                 
+
+
+![alt-text-1](https://github.com/hamidghaedi/Gene-Expression-Unsupervised-Clusteing/blob/main/consensus011.png "title-1") ![alt-text-2](https://github.com/hamidghaedi/Gene-Expression-Unsupervised-Clusteing/blob/main/consensus012.png "title-2")
+
 _________________________________________________________________________________________________________________________________________________________________________________________
 ### Refrences
 1- Biostar posts:

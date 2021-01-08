@@ -94,10 +94,10 @@ mads=apply(assay(vsd),1,mad)
 hist(mads, breaks=nrow(assay(vsd))*0.1)
 # selecting features
 mad2k=assay(vsd)[rev(order(mads))[1:2000],]
-mad4k=assay(vsd)[rev(order(mads))[1:4000],]
-mad6k=assay(vsd)[rev(order(mads))[1:6000],]
-```
+#mad4k=assay(vsd)[rev(order(mads))[1:4000],]
+#mad6k=assay(vsd)[rev(order(mads))[1:6000],]
 
+```
 
 _________________________________________________________________________________________________________________________________________________________________________________________
 
@@ -123,24 +123,28 @@ Some words on how to compute distances between clusters: Indeed there are diffre
 
 In practice HC, KM and PAM are commonly used for gene exoression data.
 
-To quantitatively dtermine the number and membership of possible clusters within the dataset, I will use Consensus Clustering approach. Applying this method has proved to be effective in new cancer subclasses discoveries. For more information on the methodology please refere to the seminal paper by [Monti et al. (2003)](https://link.springer.com/article/10.1023/A:1023949509487)  and ```ConsensusClusterPlus``` package [manual](https://bioconductor.org/packages/release/bioc/html/ConsensusClusterPlus.html). 
+To quantitatively dtermine the number and membership of possible clusters within the dataset, I will use Consensus Clustering (CC) approach. Applying this method has proved to be effective in new cancer subclasses discoveries. For more information on the methodology please refere to the seminal paper by [Monti et al. (2003)](https://link.springer.com/article/10.1023/A:1023949509487)  and ```ConsensusClusterPlus``` package [manual](https://bioconductor.org/packages/release/bioc/html/ConsensusClusterPlus.html). 
+
+To determine the number of cluster based on CC, there are several graphics which would help to this extent. (1) A Color-coded heatmap corresponding to the consensus matrix that represent consensus values from 0–1; white corresponds to 0 (never clustered togather) and dark blue to 1 (allways clustered togather). (2) Consensus Cumulative Distribution Function (CDF) plot, This graphic lets one to determine at what number of clusters,k, the CDF reaches an approximate maximum. So consensus and cluster confidence is at a maximum at this k. (3) Based on CDF plot, a chart for relative change in area under CDF curve can be plotted. This  plot  allows  a  user  to determine the relative increase in consensus and determine k at which there is no appreciable increase.
 
 ```R
+#_________________________________# Clustering & Cluster assignmnet validation _________________________________#
+# finding optimal clusters by CC
 library(ConsensusClusterPlus)
 results = ConsensusClusterPlus(mad2k,
-                               maxK=10, #maximum evalulated Ks
-                               reps=1000, # resamplings
+                               maxK=20, #maximum evalulated 20 for real world
+                               reps=1000, # 50 resamplings, Much higher recommended for real world: 1,000 
                                pItem=0.8, # 80% item resampling
-                               pFeature=1,# gene resampling
+                               pFeature=1,# 80% gene resampling
                                title="consensus.clust.uromol",
-                               clusterAlg="hc", # agglomerative hc algorithm 
-                               distance="pearson", # 1-  Pearson  correlation  distances
+                               clusterAlg="pam", # agglomerative hc algorithm 
+                               distance="spearman", # 1-  Pearson  correlation  distances
                                seed=1262118388.71279,
                                #verbose = TRUE,
                                writeTable = TRUE,
                                plot="pdf")
 ```
-
+This would return a pdf file in working directory in a folder under the name passed to the ```title``` argument.
 _________________________________________________________________________________________________________________________________________________________________________________________
 ### Refrences
 1- Biostar posts:

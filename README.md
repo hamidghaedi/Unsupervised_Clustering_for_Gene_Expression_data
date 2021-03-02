@@ -145,6 +145,8 @@ The above command with return two plots which is helful to make decision about c
                                                                                               
 ![alt-text-1](https://github.com/hamidghaedi/Gene-Expression-Unsupervised-Clusteing/blob/main/consensus011.png "title-1") ![alt-text-2](https://github.com/hamidghaedi/Gene-Expression-Unsupervised-Clusteing/blob/main/consensus012.png "title-2")
 
+### [4] Assessing cluster assignment
+To be added.
 _________________________________________________________________________________________________________________________________________________________________________________________
 ### Refrences
 1- Biostar posts:

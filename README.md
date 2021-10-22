@@ -130,20 +130,29 @@ To determine the number of cluster based on CC, there are several graphics which
 ```R
 #_________________________________# Clustering & Cluster assignmnet validation _________________________________#
 # finding optimal clusters by CC
-library(CancerSubtypes)
-cc.res=ExecuteCC(clusterNum=4, ## Refer below for more details on this
-                 d=mad2k,
-                 maxK=10,# maximum cluster number for Consensus Clustering Algorithm to evaluate
-                 clusterAlg="pam",
-                 distance="spearman",
-                 title="UROMOL",
-                 plot= pdf)
+library(ConsensusClusterPlus)
+results = ConsensusClusterPlus(mad2k,
+                               maxK=6,
+                               reps=50,
+                               pItem=0.8,
+                               pFeature=1,
+                               title= "geneExp",
+                               clusterAlg="pam",
+                               distance="spearman",
+                               seed=1262118388.71279,
+                               plot="pdf")
 ```
-By ```clusterNum``` argument I have to provide the number of cluster that I am intrested to get. This is needed by the package ```CancerSubtypes```. The main package to perform CC in R is ```ConsensusClusterPlus``` and it does not need to specify cluster number. From where I got the number 4? From inspecting the  CDF plots in the result folder (here "my/wd/UROMOL").Also I performed same analysis for datasets ```mad4k``` and ```mad6k```. So the number for clusters seems to be 4. This is not in agreement with the original [paper]( https://www.sciencedirect.com/science/article/pii/S1535610816302094), where the authors reported three subtypes. However in new report from the same group using a new pipeline they conculded that NMIBC to have four diffrent subtypes! [ref](https://www.nature.com/articles/s41467-021-22465-w). 
-
-The above command with return two plots which is helful to make decision about cluster number:  consensus CDF and  relative change in area under CDF curve.
+For this post, I selected 80% item resampling (```pItem```), 80% gene resampling (```pFeature```), a maximum evalulated k of 6 so that cluster counts of 2,3,4,5,6 are
+evaluated (```maxK```), 50 resamplings (```reps```), partition around medoids algorithm (```clusterAlg```) Spearman correlation distances (```distance```), gave
+the output a title (```title```), and asked to have graphical results written to a pdf ```plot``` file. I also set a random seed so that this example is repeatable
+(```seed```).
+ 
+The above command with return sevral plots which is helful to make decision about cluster number especially plots showing consensus CDF and  relative change in area under CDF curve.
                                                                                               
 ![alt-text-1](https://raw.githubusercontent.com/hamidghaedi/Gene-Expression-Unsupervised-Clusteing/main/CC_CDF.png "title-1") ![alt-text-2](https://raw.githubusercontent.com/hamidghaedi/Gene-Expression-Unsupervised-Clusteing/main/delta_area.png "title-2")
+
+So by looking at the plots, the optimal number of clusters would be four in this case. Below is concesus plot of samples when k = 4. Result for other k values can be find in the result pdf file. This is not in agreement with the original [paper]( https://www.sciencedirect.com/science/article/pii/S1535610816302094), where the authors reported three subtypes. However in a new report from the same group using a new pipeline they conculded that NMIBC to have four diffrent subtypes! [ref](https://www.nature.com/articles/s41467-021-22465-w). 
+![alt-text-1](https://raw.githubusercontent.com/hamidghaedi/Gene-Expression-Unsupervised-Clusteing/main/CC.png "title-1")
 
 ### [4] Assessing cluster assignment
 Assessing cluster assignment or cluster validation indicate to the  procedure of assessing the goodness of clustering  results. [Alboukadel Kassambara](https://www.datanovia.com/en/lessons/cluster-validation-statistics-must-know-methods/) has published a detailed pot on this topic. In thi tutorial I will use Silhouette method for cluster assessment.  this method can be used to investigate the separation distance between the obtained clusters. The silhouette plot reflects a measure of how close each data point in one cluster is to a points in the neighboring clusters. This measure, Silhouette width, has a range of -1 to +1. Value near +1 show that the sample is far away from the closeset data point from neighboring cluster. A negative value may indicate wrong cluster assignment and a value close to 0 means an arbitrary cluster assignment to that data point.

@@ -26,7 +26,7 @@ Other approaches also could be used for example:
 ```R
 #_________________________________reading data and processing_________________________________#
 # reading count data
-rna <- read.table("Uromol1_CountData.v1.csv", header = T, sep = ",")
+rna <- read.table("Uromol1_CountData.v1.csv", header = T, sep = ",", row.names = 1)
 head(rna[1:5, 1:5], 5)
 #                   U0001 U0002 U0006 U0007 U0010
 #ENSG00000000003.13  1458   228  1800  3945   293
@@ -54,7 +54,7 @@ dim(rna)
 #[1] 19581   476 These are protein coding genes
 
 # reading associated clinical data
-clinical.exp <- read.table("uromol_clinic.csv", sep = ",", header = T)
+clinical.exp <- read.table("uromol_clinic.csv", sep = ",", header = T, row.names = 1)
 head(clinical.exp[1:5,1:5], 5)
 #      UniqueID   CLASS  BASE47    CIS X12.gene.signature
 #U0603    U0603 luminal luminal no-CIS          high_risk
@@ -139,14 +139,14 @@ cc.res=ExecuteCC(clusterNum=3, ## Refer below for more details on this
                  title="UROMOL",
                  plot= pdf)
 ```
-By ```clusterNum``` argument I have to provide the number of cluster that I am intrested to get. This is needed by the package ```CancerSubtypes```. The main package for performin CC in R is ```ConsensusClusterPlus``` and does not need to specify cluster number. From where I got the number 4? From inspecting the  CDF plots in the result folder (here "my/wd/UROMOL").Also I performed same analysis for datasets ```mad4k``` and ```mad6k```. So the number for clusters seems to be 4. This is not in agreement with the original [paper]( https://www.sciencedirect.com/science/article/pii/S1535610816302094), where the authors reported three subtypes. However in new report from the same group using a new pipeline they conculded that NMIBC to have four diffrent subtypes! [ref](https://www.nature.com/articles/s41467-021-22465-w). 
+By ```clusterNum``` argument I have to provide the number of cluster that I am intrested to get. This is needed by the package ```CancerSubtypes```. The main package to perform CC in R is ```ConsensusClusterPlus``` and it does not need to specify cluster number. From where I got the number 4? From inspecting the  CDF plots in the result folder (here "my/wd/UROMOL").Also I performed same analysis for datasets ```mad4k``` and ```mad6k```. So the number for clusters seems to be 4. This is not in agreement with the original [paper]( https://www.sciencedirect.com/science/article/pii/S1535610816302094), where the authors reported three subtypes. However in new report from the same group using a new pipeline they conculded that NMIBC to have four diffrent subtypes! [ref](https://www.nature.com/articles/s41467-021-22465-w). 
 
 The above command with return two plots which is helful to make decision about cluster number:  consensus CDF and  relative change in area under CDF curve.
                                                                                               
 ![alt-text-1](https://github.com/hamidghaedi/Gene-Expression-Unsupervised-Clusteing/blob/main/consensus011.png "title-1") ![alt-text-2](https://github.com/hamidghaedi/Gene-Expression-Unsupervised-Clusteing/blob/main/consensus012.png "title-2")
 
 ### [4] Assessing cluster assignment
-Assessing cluster assignment or cluster validation is indicating to the  procedure of assessing the goodness of clustering  results. [Alboukadel Kassambara] (https://www.datanovia.com/en/lessons/cluster-validation-statistics-must-know-methods/) has published a detailed pot on this topic. In thi tutorial I will use Silhouette method for cluster assessment.  
+Assessing cluster assignment or cluster validation is indicating to the  procedure of assessing the goodness of clustering  results. [Alboukadel Kassambara] (https://www.datanovia.com/en/lessons/cluster-validation-statistics-must-know-methods/) has published a detailed pot on this topic. In thi tutorial I will use Silhouette method for cluster assessment.  this method can be used to investigate the separation distance between the obtained clusters. The silhouette plot reflects a measure of how close each data point in one cluster is to a points in the neighboring clusters. This measure, Silhouette width, has a range of -1 to +1. Value near +1 show that the sample is far away from the closeset data point from neighboring cluster. A negative value may indicate wrong cluster assignment and a value close to 0 means an arbitrary cluster assignment to that data point.
 _________________________________________________________________________________________________________________________________________________________________________________________
 ### Refrences
 1- Biostar posts:

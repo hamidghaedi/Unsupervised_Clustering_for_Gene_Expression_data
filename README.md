@@ -171,10 +171,9 @@ cc4Sil = silhouette(x = cc4[[3]], # x is a numeric vector that indicates cluster
 library(factoextra)
 > fviz_silhouette(cc4Sil, palette = "jco",
                  ggtheme = theme_classic())
-
-
-
 ```
+
+![alt-text-1](https://raw.githubusercontent.com/hamidghaedi/Gene-Expression-Unsupervised-Clusteing/main/CC_Silhoutte.PNG "title-1")
 _________________________________________________________________________________________________________________________________________________________________________________________
 ### Refrences
 1- Biostar posts:

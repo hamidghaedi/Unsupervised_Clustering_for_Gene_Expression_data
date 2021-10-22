@@ -172,7 +172,16 @@ library(factoextra)
 > fviz_silhouette(cc4Sil, palette = "jco",
                  ggtheme = theme_classic())
 ```
+The above function return a summary of Silhoutte width for each cluster:
+```R
+  cluster size ave.sil.width
+1       1  130          0.75
+2       2  199          0.83
+3       3   66          0.65
+4       4   81          0.72
+```
 
+The from the below image one can get an idea on the average Silhoutte width as well as size of each cluster. 
 ![alt-text-1](https://raw.githubusercontent.com/hamidghaedi/Gene-Expression-Unsupervised-Clusteing/main/CC_Silhoutte.PNG "title-1")
 _________________________________________________________________________________________________________________________________________________________________________________________
 ### Refrences

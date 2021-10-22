@@ -155,7 +155,26 @@ So by looking at the plots, the optimal number of clusters would be four in this
 ![alt-text-1](https://raw.githubusercontent.com/hamidghaedi/Gene-Expression-Unsupervised-Clusteing/main/CC.png "title-1")
 
 ### [4] Assessing cluster assignment
-Assessing cluster assignment or cluster validation indicate to the  procedure of assessing the goodness of clustering  results. [Alboukadel Kassambara](https://www.datanovia.com/en/lessons/cluster-validation-statistics-must-know-methods/) has published a detailed pot on this topic. In thi tutorial I will use Silhouette method for cluster assessment.  this method can be used to investigate the separation distance between the obtained clusters. The silhouette plot reflects a measure of how close each data point in one cluster is to a points in the neighboring clusters. This measure, Silhouette width, has a range of -1 to +1. Value near +1 show that the sample is far away from the closeset data point from neighboring cluster. A negative value may indicate wrong cluster assignment and a value close to 0 means an arbitrary cluster assignment to that data point.
+Assessing cluster assignment or cluster validation indicate to the  procedure of assessing the goodness of clustering  results. [Alboukadel Kassambara](https://www.datanovia.com/en/lessons/cluster-validation-statistics-must-know-methods/) has published a detailed pot on this topic. In thi tutorial I will use Silhouette method for cluster assessment.  this method can be used to investigate the separation distance between the obtained clusters. The Silhouette plot reflects a measure of how close each data point in one cluster is to a points in the neighboring clusters. This measure, Silhouette width, has a range of -1 to +1. Value near +1 show that the sample is far away from the closeset data point from neighboring cluster. A negative value may indicate wrong cluster assignment and a value close to 0 means an arbitrary cluster assignment to that data point.
+
+The output of ConsensusClusterPlus is a list, and result for each of *k* values like k = 4, can be accessed by `results[[4]]`. I save the result in a new object and then will move forward with calculating and then plotting Silhouette plot.
+```R
+#_________________________________#Assessing cluster assignment _________________________________#
+cc4 = results[[4]]
+
+# calcultaing Silhouette width using the cluster package 
+library(cluster)
+cc4Sil = silhouette(x = cc4[[3]], # x is a numeric vector that indicates cluster assignment for each data point
+                    dist = as.matrix(1- cc4[[4]])) # dist should be a distance matrix and NOT a similarity matrix, so I subtract the matrix from one to get that dist matrix
+
+#For visualization:
+library(factoextra)
+> fviz_silhouette(cc4Sil, palette = "jco",
+                 ggtheme = theme_classic())
+
+
+
+```
 _________________________________________________________________________________________________________________________________________________________________________________________
 ### Refrences
 1- Biostar posts:

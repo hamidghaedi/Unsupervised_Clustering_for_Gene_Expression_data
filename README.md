@@ -83,21 +83,19 @@ keep <- rowSums(counts(dds) >= 10) >= round(ncol(rna)*0.1)
 dds <- dds[keep,]
 
 # vst tranformation
-vsd <- vst(dds) # For a fully unsupervised transformation one can set blind = TRUE (which is the default).
+vsd <- assay(vst(dds)) # For a fully unsupervised transformation one can set blind = TRUE (which is the default).
 
-# Inspecting deseq object
-#head(assay(vsd), 3)
-#colData(vsd)
+
 #_________________________________# Feature Selection _________________________________#
 # top 5K based on MAD 
 
-mads=apply(assay(vsd),1,mad)
+mads=apply(vsd,1,mad)
 # check data distribution
-hist(mads, breaks=nrow(assay(vsd))*0.1)
+hist(mads, breaks=nrow(vsd)*0.1)
 # selecting features
-mad2k=assay(vsd)[rev(order(mads))[1:2000],]
-#mad4k=assay(vsd)[rev(order(mads))[1:4000],]
-#mad6k=assay(vsd)[rev(order(mads))[1:6000],]
+mad2k=vsd[rev(order(mads))[1:2000],]
+#mad4k=vsd[rev(order(mads))[1:4000],]
+#mad6k=vsd[rev(order(mads))[1:6000],]
 
 ```
 

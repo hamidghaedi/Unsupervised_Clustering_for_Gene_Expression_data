@@ -8,7 +8,7 @@ Unsupervised class discovery is a data mining method to identify unknown possibl
 #### [3] applying clustering algorithms, 
 #### [4] Assessing cluster assignment
 
-To make this tutorial reproducible , clinical data can be downloaded from this repo and normalized RNA-seq data (can be obtained by through this [link](https://drive.google.com/file/d/1AUxF3VYBb-O1ZAVuqJIgU5n53bmjfvnG/view?usp=sharing) .
+To make this tutorial reproducible , clinical data can be downloaded from this repo and normalized RNA-seq data could be obtained  through this [link](https://drive.google.com/file/d/1AUxF3VYBb-O1ZAVuqJIgU5n53bmjfvnG/view?usp=sharing) .
 _________________________________________________________________________________________________________________________________________________________________________________________
 
 ### [1] Data preparation

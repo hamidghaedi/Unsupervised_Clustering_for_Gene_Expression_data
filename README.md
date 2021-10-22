@@ -143,7 +143,7 @@ By ```clusterNum``` argument I have to provide the number of cluster that I am i
 
 The above command with return two plots which is helful to make decision about cluster number:  consensus CDF and  relative change in area under CDF curve.
                                                                                               
-![alt-text-1](https://github.com/hamidghaedi/Gene-Expression-Unsupervised-Clusteing/blob/main/consensus011.png "title-1") ![alt-text-2](https://github.com/hamidghaedi/Gene-Expression-Unsupervised-Clusteing/blob/main/consensus012.png "title-2")
+![alt-text-1](https://raw.githubusercontent.com/hamidghaedi/Gene-Expression-Unsupervised-Clusteing/main/CC_CDF.png "title-1") ![alt-text-2](https://raw.githubusercontent.com/hamidghaedi/Gene-Expression-Unsupervised-Clusteing/main/delta_area.png "title-2")
 
 ### [4] Assessing cluster assignment
 Assessing cluster assignment or cluster validation indicate to the  procedure of assessing the goodness of clustering  results. [Alboukadel Kassambara](https://www.datanovia.com/en/lessons/cluster-validation-statistics-must-know-methods/) has published a detailed pot on this topic. In thi tutorial I will use Silhouette method for cluster assessment.  this method can be used to investigate the separation distance between the obtained clusters. The silhouette plot reflects a measure of how close each data point in one cluster is to a points in the neighboring clusters. This measure, Silhouette width, has a range of -1 to +1. Value near +1 show that the sample is far away from the closeset data point from neighboring cluster. A negative value may indicate wrong cluster assignment and a value close to 0 means an arbitrary cluster assignment to that data point.

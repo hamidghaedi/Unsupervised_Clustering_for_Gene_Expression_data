@@ -131,7 +131,7 @@ To determine the number of cluster based on CC, there are several graphics which
 #_________________________________# Clustering & Cluster assignmnet validation _________________________________#
 # finding optimal clusters by CC
 library(CancerSubtypes)
-cc.res=ExecuteCC(clusterNum=3, ## Refer below for more details on this
+cc.res=ExecuteCC(clusterNum=4, ## Refer below for more details on this
                  d=mad2k,
                  maxK=10,# maximum cluster number for Consensus Clustering Algorithm to evaluate
                  clusterAlg="pam",

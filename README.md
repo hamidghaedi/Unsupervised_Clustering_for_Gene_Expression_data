@@ -1,5 +1,4 @@
 # Gene-Expression-Unsupervised-Clusteing
-Using consensus clustering approach to find pattern in expression data sets
 
 Unsupervised class discovery is a data mining method to identify unknown possible groups (clusters) of items solely based on intrinsic features and no external variables. Basically clustering includes four steps:
 

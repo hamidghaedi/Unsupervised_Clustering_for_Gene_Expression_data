@@ -7,7 +7,7 @@ Unsupervised class discovery is a data mining method to identify unknown possibl
 #### [3] applying clustering algorithms, 
 #### [4] Assessing cluster assignment
 
-I use a dataset coming from an RNA-seq experiment on 476 patients with non-muscle invasive bladder cancer. To make this tutorial reproducible , clinical data can be downloaded from this repo and normalized RNA-seq data could be obtained  through this [link](https://drive.google.com/file/d/1AUxF3VYBb-O1ZAVuqJIgU5n53bmjfvnG/view?usp=sharing) .
+I use a dataset coming from an RNA-seq experiment on 476 patients with non-muscle invasive bladder cancer. To make this tutorial reproducible , clinical data can be downloaded from this repo and normalized RNA-seq data could be obtained  through this [link](https://drive.google.com/file/d/1AUxF3VYBb-O1ZAVuqJIgU5n53bmjfvnG/view?usp=sharing) . So if you are willing to use these materials, start your analysis from ``feature selection`` section onward.
 _________________________________________________________________________________________________________________________________________________________________________________________
 
 ### [1] Data preparation
@@ -84,7 +84,8 @@ dds <- dds[keep,]
 # vst tranformation
 vsd <- assay(vst(dds)) # For a fully unsupervised transformation one can set blind = TRUE (which is the default).
 
-
+```
+```R
 #_________________________________# Feature Selection _________________________________#
 # top 5K based on MAD 
 

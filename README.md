@@ -156,9 +156,13 @@ So by looking at the plots, the optimal number of clusters would be four in this
 ### [4] Assessing cluster assignment
 Assessing cluster assignment or cluster validation indicate to the  procedure of assessing the goodness of clustering  results. [Alboukadel Kassambara](https://www.datanovia.com/en/lessons/cluster-validation-statistics-must-know-methods/) has published a detailed pot on this topic. In thi tutorial I will use Silhouette method for cluster assessment.  this method can be used to investigate the separation distance between the obtained clusters. The Silhouette plot reflects a measure of how close each data point in one cluster is to a points in the neighboring clusters. This measure, Silhouette width, has a range of -1 to +1. Value near +1 show that the sample is far away from the closeset data point from neighboring cluster. A negative value may indicate wrong cluster assignment and a value close to 0 means an arbitrary cluster assignment to that data point.
 
+Since by clustering one should expect to find cluster of samples who are significantly diffrent in terms of survival probability, here as a kind of assessing cluster assignment in biological perspective, I perform survival analysis between clusters (subtypes) to see significant differences, if any.
+
+
 The output of ConsensusClusterPlus is a list, and result for each of *k* values like k = 4, can be accessed by `results[[4]]`. I save the result in a new object and then will move forward with calculating and then plotting Silhouette plot.
 ```R
 #_________________________________#Assessing cluster assignment _________________________________#
+#Silhouette width analysis
 cc4 = results[[4]]
 
 # calcultaing Silhouette width using the cluster package 
@@ -182,6 +186,65 @@ The above function return a summary of Silhoutte width for each cluster:
 
 The from the below image one can get an idea on the average Silhoutte width as well as size of each cluster. 
 ![alt-text-1](https://raw.githubusercontent.com/hamidghaedi/Gene-Expression-Unsupervised-Clusteing/main/CC_Silhoutte.PNG "title-1")
+
+```R
+#_________________________________#Assessing cluster assignment _________________________________#
+#Survival analysis
+### preparing dataset for survival analysis
+cc4Class = data.frame(cc4$consensusClass)
+cc4Class$ID = rownames(cc4Class)
+cc4Class = data.frame(cc4Class[match(rownames(clinical.exp),cc4Class$ID),])
+all(cc4Class$ID == rownames(clinical.exp))
+
+# new encoding for status, time and cluster
+clinical.exp$status = ifelse(clinical.exp$Progression.to.T2. == "NO", 0,1)
+clinical.exp$time = as.numeric(clinical.exp$Progression.free.survival..months. * 30)
+clinical.exp$cluster = as.factor(cc4Class$cc4.consensusClass)
+
+library(survival)
+
+res.cox <- coxph(Surv(time, status) ~ cluster, data = clinical.exp)
+res.cox
+```
+```R
+Call:
+coxph(formula = Surv(time, status) ~ cluster, data = clinical.exp)
+
+             coef exp(coef) se(coef)      z       p
+cluster2 -1.47638   0.22846  0.48357 -3.053 0.00226
+cluster3  0.22532   1.25272  0.42213  0.534 0.59351
+cluster4 -2.39949   0.09076  1.03301 -2.323 0.02019
+
+Likelihood ratio test=21.88  on 3 df, p=6.908e-05
+n= 476, number of events= 31 
+```
+
+```R
+summary(res.cox)
+```
+```R
+Call:
+coxph(formula = Surv(time, status) ~ cluster, data = clinical.exp)
+
+  n= 476, number of events= 31 
+
+             coef exp(coef) se(coef)      z Pr(>|z|)   
+cluster2 -1.47638   0.22846  0.48357 -3.053  0.00226 **
+cluster3  0.22532   1.25272  0.42213  0.534  0.59351   
+cluster4 -2.39949   0.09076  1.03301 -2.323  0.02019 * 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+         exp(coef) exp(-coef) lower .95 upper .95
+cluster2   0.22846     4.3771   0.08855    0.5894
+cluster3   1.25272     0.7983   0.54769    2.8653
+cluster4   0.09076    11.0175   0.01198    0.6874
+
+Concordance= 0.714  (se = 0.039 )
+Likelihood ratio test= 21.88  on 3 df,   p=7e-05
+Wald test            = 16.52  on 3 df,   p=9e-04
+Score (logrank) test = 22.14  on 3 df,   p=6e-05
+```
 _________________________________________________________________________________________________________________________________________________________________________________________
 ### Refrences
 1- Biostar posts:

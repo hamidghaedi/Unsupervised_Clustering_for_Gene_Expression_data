@@ -1,4 +1,4 @@
-# Gene-Expression-Unsupervised-Clusteing
+# Unsupervised clustering of gene expression data (RNA-seq) for cancer subtype discovery
 
 Unsupervised class discovery is a data mining method to identify unknown possible groups (clusters) of items solely based on intrinsic features and no external variables. Basically clustering includes four steps:
 

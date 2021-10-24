@@ -168,7 +168,7 @@ cc4Sil = silhouette(x = cc4[[3]], # x is a numeric vector that indicates cluster
 
 #For visualization:
 library(factoextra)
-> fviz_silhouette(cc4Sil, palette = "jco",
+fviz_silhouette(cc4Sil, palette = "jco",
                  ggtheme = theme_classic())
 ```
 The above function return a summary of Silhoutte width for each cluster:

@@ -2,24 +2,24 @@
 
 Unsupervised class discovery is a data mining method to identify unknown possible groups (clusters) of items solely based on intrinsic features and no external variables. Basically clustering includes four steps:
 
-#### [1] Data preparation,
-#### [2] Dissimilarity matrix calculation,
-#### [3] applying clustering algorithms, 
-#### [4] Assessing cluster assignment
+#### 1) Data preparation,
+#### 2) Dissimilarity matrix calculation,
+#### 3) applying clustering algorithms, 
+#### 4) Assessing cluster assignment
 
 I use a dataset coming from an RNA-seq experiment on 476 patients with non-muscle invasive bladder cancer. To make this tutorial reproducible , clinical data can be downloaded from this repo and normalized RNA-seq data could be obtained  through this [link](https://drive.google.com/file/d/1AUxF3VYBb-O1ZAVuqJIgU5n53bmjfvnG/view?usp=sharing) . So if you are willing to use these materials, start your analysis from ``feature selection`` section onward.
 _________________________________________________________________________________________________________________________________________________________________________________________
 
-### [1] Data preparation
+### 1) Data preparation
 
 In this step we need to filter out incomplete cases and low expressed genes, then transforming/normalizing gene expression values. Usually analysis would start from a raw count matrix comming from an RNA-seq experiment. Because there are a large number of features (gene) in such matrix , a feature selection step should be done to limit the analysis to those genes that possibly explain variation between samples in the cohort.  
 To do so ;
 - For filteration: I keep those genes  that  have expression in 10% of samples with a count of 10 or higher. 
 - For transformation/normalization : I  use variance stabilizing transformation (VST) implemented as ```vst``` function from ```DESeq2 packages``` which at the same time will normalize the raw count also. Using other type of transformation like Z score, log transformation are also quiet commmon.
-- For feature selection: I  select 2k, 4k and 6k top genes based on median absolute deviation (MAD) . A number of other methods like "feature selection based on the most variance", "feature dimension reduction and extraction based on Principal Component Analysis (PCA)", and "feature selection based on Cox regression model" could be applied. See bioconductor package [CancerSubtypes manual](http://www.bioconductor.org/packages/release/bioc/html/CancerSubtypes.html). 
+- 
+- For feature selection: I  select 2k, 4k and 6k top genes based on median absolute deviation (MAD) . A number of other methods like "feature selection based on the most variance", "feature dimension reduction and extraction based on Principal Component Analysis (PCA)", and "feature selection based on Cox regression model" could be applied, as well. To read more see the bioconductor package [CancerSubtypes manual](http://www.bioconductor.org/packages/release/bioc/html/CancerSubtypes.html). If the expression matrix contains estimated transcript counts (like RSEM) or counts normalized for sequencing depth (like FPKM) , log2 transformation of the values would prepare the data for clustering. See the following examples:
 
-Other approaches also could be used for example: 
- - Using log2(RSEM) gene expression value and removing genes with NA values more than 10% across samples. Then selected top 25% most-varying genes by standard deviation of gene expression across samples ([A. Gordon Robertson et al., Cell,2017](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5687509/)). 
+ - Using log2(RSEM) gene expression value and removing genes with NA values more than 10% across samples. Then selecting  top 25% most-varying genes by standard deviation of gene expression across samples ([A. Gordon Robertson et al., Cell,2017](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5687509/)). 
 
  - Using FPKM matrix and keeping genes with (log2(FPKM+1)>2 in at least 10% of samples and selecting a subsets (2K, 4K, 6K ) of MAD ranked genes to identify stable classes ([Jakob Hedegaard et al, Cancer Cell, 2016](https://www.sciencedirect.com/science/article/pii/S1535610816302094#mmc1)). 
  
@@ -101,9 +101,9 @@ mad2k=vsd[rev(order(mads))[1:2000],]
 
 _________________________________________________________________________________________________________________________________________________________________________________________
 
-### [2&3] Dissimilarity matrix calculation & applying clustering algorithms:
+### 2) Dissimilarity matrix calculation and 3) applying clustering algorithms:
 
-Clustering is grouping similar samples into one cluster and keeping them far from disimilar samples based on distance measure. There is  a diverse list of dissimilarity matrix calculation methods (distance measures). To see list of available distance measures please check ```?stats::dist``` and ```?vegan::vegdist()```. The latter need to have the ```vegan``` package to be installed:
+Clustering is about grouping similar samples into one cluster and keeping them far from disimilar samples based on distance measure. There is  a diverse list of dissimilarity matrix calculation methods (distance measures). To see list of available distance measures please check ```?stats::dist``` and ```?vegan::vegdist()```. The latter need to have the ```vegan``` package to be installed:
 
    * For log-transformed gene expression, Euclidean based measures can be applied.
    * For RNA-seq normalised counts, correlation based measures (Pearson, Spearman) or a Poisson-based distance can be used.  

@@ -155,7 +155,7 @@ So by looking at the plots, the optimal number of clusters would be four in this
 ### [4] Assessing cluster assignment
 Assessing cluster assignment or cluster validation indicate to the  procedure of assessing the goodness of clustering  results. [Alboukadel Kassambara](https://www.datanovia.com/en/lessons/cluster-validation-statistics-must-know-methods/) has published a detailed pot on this topic. In this tutorial I will use Silhouette method for cluster assessment.  this method can be used to investigate the separation distance between the obtained clusters. The Silhouette plot reflects a measure of how close each data point in one cluster is to a points in the neighboring clusters. This measure, Silhouette width, has a range of -1 to +1. Value near +1 show that the sample is far away from the closeset data point from neighboring cluster. A negative value may indicate wrong cluster assignment and a value close to 0 means an arbitrary cluster assignment to that data point.
 
-Since by clustering one should expect to find cluster of samples who are significantly diffrent in terms of survival probability, here as a kind of assessing cluster assignment in biological perspective, I perform survival analysis between clusters (subtypes) to see significant differences, if any.
+Since by clustering one should expect to find cluster of samples who are significantly different in terms of survival probability, here as a kind of assessing cluster assignment in biological perspective, I perform survival analysis between clusters (subtypes) to see significant differences, if any.
 
 
 The output of ConsensusClusterPlus is a list, and result for each of *k* values like k = 4, can be accessed by `results[[4]]`. I save the result in a new object and then will move forward with calculating and then plotting Silhouette plot.
@@ -174,7 +174,7 @@ library(factoextra)
 fviz_silhouette(cc4Sil, palette = "jco",
                  ggtheme = theme_classic())
 ```
-The above function return a summary of Silhoutte width for each cluster:
+The above function return a summary of Silhouette  width for each cluster:
 ```R
   cluster size ave.sil.width
 1       1  130          0.75

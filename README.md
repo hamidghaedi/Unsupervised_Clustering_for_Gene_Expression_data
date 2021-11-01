@@ -108,7 +108,7 @@ Clustering is about grouping similar samples into one cluster and keeping them f
 
 **Clustering algorithms**: To see a list of algorithms please check ```diceR``` package [vignettes](https://cran.r-project.org/web/packages/diceR/vignettes/overview.html). Most widely used algorithms are *partitional clustering* and *hierarchical clustering*.
 
-*Partitional clustering* are clustering methods used to classify samples into multiple clusters based on their similarity. The algorithms required to specify the number of clusters to be generated. The commonly used partitional clustering, including:
+*Partitional clustering* are clustering methods used to classify samples into multiple clusters based on their similarity. The algorithms required to specify the number of clusters to be generated. The commonly used partitional clustering, include:
 
  * K-means clustering (KM): each cluster is represented by the center or means of the data points belonging to the cluster. This method is sensitive to outliers.
  * K-medoids clustering or PAM (Partitioning Around Medoids), in which, each cluster is represented by one of the objects in the cluster. PAM is less sensitive to outliers.
